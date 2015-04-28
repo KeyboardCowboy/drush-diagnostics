@@ -2,7 +2,7 @@
 Drush plugins to generate diagnostic reports of your Drupal site.
 
 ## Field Reports
-### `drush diag-field-use-report`  
+### `drush diag-field-use-report (dfur)`  
 
 Generate a report listing all fields and number of records per field.
   
