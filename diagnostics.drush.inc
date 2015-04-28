@@ -8,7 +8,7 @@
  */
 function diagnostics_drush_command() {
   $items['diag-field-use-report'] = array(
-    'description' => 'Generate a report listing all fields, the module implementing them, their instances and number of DB rows per instance.',
+    'description' => 'Generate a report listing all fields and number of records per field.',
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_DATABASE,
     'aliases' => array('dfur'),
     'options' => array(
@@ -17,8 +17,9 @@ function diagnostics_drush_command() {
       'format' => 'Set the output format for the report. (Defaults to table.)',
     ),
     'examples' => array(
-      'drush dfur' => 'List all fields with type and number of records.',
-      'drush dfur --instance' => 'List all fields by entity type and bundle with field type and number of records.',
+      'drush dfur' => 'List all fields and number of records for each.',
+      'drush dfur --instance' => 'List all fields by entity type and bundle and number of records per instance.',
+      'drush dfur --cols=type' => 'Add the "type" col from the field_config table to get the field type.',
     ),
   );
 
