@@ -14,6 +14,7 @@ function diagnostics_drush_command() {
     'options' => array(
       'cols' => 'Add columns from the field_config table.',
       'instance' => 'List usage by field instance.',
+      'name' => 'Filter by field name. (Uses DB LIKE format "%{name}%")',
       'format' => 'Set the output format for the report. (Defaults to table.)',
     ),
     'examples' => array(
@@ -40,11 +41,17 @@ function drush_diagnostics_diag_field_use_report() {
   }
 
   // Get data from field_config
-  $res = db_select('field_config', 'fc')
+  $query = db_select('field_config', 'fc')
     ->fields('fc', $fields)
     ->condition('deleted', 0)
-    ->orderBy('field_name')
-    ->execute();
+    ->orderBy('field_name');
+
+  // Apply field name filters
+  if ($field_name = drush_get_option('name', NULL)) {
+    $query->condition('fc.field_name', '%' . db_like($field_name) . '%', 'LIKE');
+  }
+
+  $res = $query->execute();
 
   while ($row = drush_db_fetch_object($res)) {
     $data[$row->field_name] = (array) $row;
